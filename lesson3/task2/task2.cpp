@@ -1,12 +1,9 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 #include <locale>
 #include <Windows.h>
 #include <exception>
 #include <string>
 #include <algorithm>
-
-
 
 class smart_array {
 public:
@@ -41,6 +38,25 @@ public:
 			throw std::length_error("Такого элемента не существует");
 		}
 	}
+
+	smart_array& operator=(const smart_array& v)
+	{
+		
+		if (this->arr != nullptr) {
+			delete[] this->arr;
+		}
+		
+		this->size = v.size;
+		this->count = v.count;
+
+		this->arr = new int[size] {};
+		for (int i = 0; i < size; i++)
+		{
+			this->arr[i] = v.arr[i];
+		}
+		
+		return *this;
+	}
 };
 
 int main()
@@ -56,15 +72,18 @@ int main()
 		arr.add_element(155);
 
 		smart_array new_array(2);
-		new_array.add_element(44);
-		new_array.add_element(34);
+		new_array.add_element(7);
+		new_array.add_element(8);
 
 		std::cout << arr.get_element(1) << std::endl;
 		std::cout << new_array.get_element(1) << std::endl;
+
 		
-		for (int i = 0; i < arr.size; i++) {
-			arr.arr[i] = new_array.arr[i];
-		}
+
+		arr = new_array;
+
+		std::cout << arr.get_element(1) << std::endl;
+		std::cout << new_array.get_element(1) << std::endl;
 
 	}
 	catch (const std::exception& ex) {
