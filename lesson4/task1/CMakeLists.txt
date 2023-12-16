@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.22.0)
+project(task1)
+set(task1 main.cpp)
+add_executable(task1 ${task1})
+add_subdirectory (Catch2 Catch2-build)
+#target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(task1 PRIVATE Catch2::Catch2)
