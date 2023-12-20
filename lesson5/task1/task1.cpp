@@ -4,30 +4,35 @@
 
 template <class T>
 T squar(T x) {
-    return x * x;
+    return x*x;
 }
+
 template<class T>
-void squar(std::vector<T> v) {
+std::vector<T> squar(std::vector<T> v) {
+    std::vector<T> t;
     for (int i = 0; i < v.size(); i++) {
-        std::cout << v[i]* v[i] << ", ";
+        t.push_back(v[i] * v[i]);
     }
-    std::cout << "\n";
-   
+    return t;
 }
 
 
 int main()
 {
-    std::vector<int> x = { -1, 4, 8 };
+    int y = 4;
+    int x = squar(y);
+    std::cout << "[IN]: " << y << "\n" << "[OUT]: " << x << "\n";
+
+    std::vector<int> v = { -1, 4, 8 };
     std::cout << "[IN]: ";
-    for (int i = 0; i < x.size(); i++) {
-        std::cout << x[i] << ", ";
+    for (int i = 0; i < v.size(); i++) {
+        std::cout << v[i] << ", ";
     } 
     std::cout << "\n";
     std::cout << "[OUT]: "; 
-    squar(x);
-  
-    int y = 4;
-    std::cout << "[IN]: " << y << "\n" << "[OUT]: " << squar(y);
-   
+
+    std::vector<int> t = squar(v);
+    for (int i = 0; i < t.size(); i++) {
+        std::cout << t[i] << ", ";
+    }
 }

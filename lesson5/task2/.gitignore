@@ -59,8 +59,6 @@ dlldata.c
 .builds
 *.pidb
 *.svclog
-*.sln
-*.vcxproj
 *.filters
 *.vcxproj.user
 *.vcxproj.filters

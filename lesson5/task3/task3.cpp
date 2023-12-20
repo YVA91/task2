@@ -1,6 +1,8 @@
 ﻿
 #include <iostream>
 #include <vector>
+#include <list>
+#include <algorithm>
 
 class Count_functor {
     
@@ -9,12 +11,10 @@ class Count_functor {
 
 public: 
 
-    void operator()(std::vector<int> v) {
-        for (int i = 0; i < v.size(); i++) {
-            if (v[i] % 3 == 0) {
-                sum = sum+v[i];
-                count++;
-            }
+    void operator()(int v) {
+        if (v % 3 == 0) {
+            sum = sum+v;
+            count++;
         }
     }; 
 
@@ -31,13 +31,9 @@ public:
 int main()
 {
     std::vector<int> v = { 4, 1, 3, 6, 25, 54 };
-    std::cout << "[IN]: ";
-    for (int i = 0; i < v.size(); i++) {
-        std::cout << v[i] << ", ";
-    }
-    std::cout << "\n";
     Count_functor count_functor;
-    count_functor(v);
+    count_functor = std::for_each(v.begin(), v.end(), count_functor);
+
     std::cout << "[OUT]: get_sum() = " << count_functor.get_sum() << "\n";
     std::cout << "[OUT]: get_count() = " << count_functor.get_count() << "\n";
 }

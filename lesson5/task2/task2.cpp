@@ -1,5 +1,7 @@
 ﻿
 #include <iostream>
+#include <locale>
+#include <Windows.h>
 
 template <class T>
 class Table {
@@ -21,17 +23,61 @@ class Table {
         }
 
        T* operator[](int i) {
-            return elements[i];
+            if (i > row || i > col) {
+                throw std::length_error("Такого элемента не существует");
+            }
+            else if (i < 0) {
+                throw std::length_error("Индекс не может быть отрицательным");
+            }
+            else {
+                return elements[i];
+            }
         }
        T* operator[](int i) const {
-           return elements[i];
+           if (i > row || i > col) {
+               throw std::length_error("Такого элемента не существует");
+           }
+           else if (i < 0) {
+               throw std::length_error("Индекс не может быть отрицательным");
+           }
+           else {
+               return elements[i];
+           }
        }
      
 
         int Size() const {
             return row * col;
         }
+        
+        Table& operator=(const Table& v)
+        {
 
+            if (this->elements != nullptr) {
+                for (int i = 0; i < row; i++)
+                {
+                    delete[] elements[i];
+                }
+                delete[] elements;
+            }
+
+            this->row = v.row;
+            this->col = v.col;
+
+            this->elements = new T * [row] {};
+            for (int i = 0; i < row; i++) {
+                elements[i] = new T[col]{};
+            }
+        
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    this->elements[i][j] = v.elements[i][j];
+                }
+            }
+
+            return *this;
+        }
+        
     private:
         T** elements = nullptr;
         int row = 0;
@@ -42,15 +88,20 @@ class Table {
 
 int main()
 {
-    auto test = Table<int>(2, 8);
-    test[0][0] = 4;
-    
-    /*for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 8; j++) {
-            std::cout << test[i][j] << " ";
-        }
-        std::cout << "\n";
-    }*/
+    setlocale(LC_ALL, "Russian");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
 
-    std::cout << test[0][0];
+    Table<int> t1(2, 3);
+    Table<int> t2(2, 3);
+
+    t1 = t2;
+
+    try {
+        t1[0][0] = 8;
+        std::cout << t1[0][0];
+    } 
+    catch (const std::exception& ex) {
+        std::cout << ex.what() << std::endl;
+    }
 };
