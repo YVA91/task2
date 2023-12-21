@@ -22,29 +22,31 @@ class Table {
             delete[] elements;
         }
 
-       T* operator[](int i) {
-            if (i > row || i > col) {
-                throw std::length_error("Такого элемента не существует");
+        class RowWrapper
+        {
+        public:
+            RowWrapper(T* aitem, int acol) {
+                item = aitem;
+                col = acol;
             }
-            else if (i < 0) {
-                throw std::length_error("Индекс не может быть отрицательным");
+
+            T& operator[](int i)
+            {
+                if (i >= col || i < 0) throw std::length_error("Такого элемента не существует");
+                return item[i];
             }
-            else {
-                return elements[i];
-            }
-        }
-       T* operator[](int i) const {
-           if (i > row || i > col) {
-               throw std::length_error("Такого элемента не существует");
-           }
-           else if (i < 0) {
-               throw std::length_error("Индекс не может быть отрицательным");
-           }
-           else {
-               return elements[i];
-           }
-       }
-     
+
+        private:
+            T* item = nullptr;
+            int col = 0;
+        };
+
+        RowWrapper operator[](int i) 
+        {
+            if (i >= row || i < 0) throw std::length_error("Такого элемента не существует");
+
+            return RowWrapper(elements[i], col);
+        };
 
         int Size() const {
             return row * col;
@@ -99,7 +101,7 @@ int main()
 
     try {
         t1[0][0] = 8;
-        std::cout << t1[0][0];
+        std::cout << t1[1][3];
     } 
     catch (const std::exception& ex) {
         std::cout << ex.what() << std::endl;
