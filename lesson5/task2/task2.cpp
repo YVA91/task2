@@ -14,6 +14,23 @@ class Table {
                 elements[i] = new T[col]{};
             }
         };
+
+        Table(const Table& v) {
+                this->row = v.row;
+                this->col = v.col;
+
+                this->elements = new T * [row] {};
+                for (int i = 0; i < row; i++) {
+                    elements[i] = new T[col]{};
+                }
+
+                for (int i = 0; i < row; i++) {
+                    for (int j = 0; j < col; j++) {
+                        this->elements[i][j] = v.elements[i][j];
+                    }
+                }
+        }
+
         ~Table() {
             for (int i = 0; i < row; i++)
             {
@@ -54,7 +71,10 @@ class Table {
         
         Table& operator=(const Table& v)
         {
-
+            if (&v != this)
+            {
+                return *this;
+            }
             if (this->elements != nullptr) {
                 for (int i = 0; i < row; i++)
                 {
@@ -79,7 +99,7 @@ class Table {
 
             return *this;
         }
-        
+      
     private:
         T** elements = nullptr;
         int row = 0;
@@ -95,13 +115,16 @@ int main()
     SetConsoleOutputCP(1251);
 
     Table<int> t1(2, 3);
-    Table<int> t2(2, 3);
+    //Table<int> t2(2, 3);
 
-    t1 = t2;
+    //t1 = t1;
+    //t1 = t2;
+ 
+    Table<int>t2(t1);
 
     try {
         t1[0][0] = 8;
-        std::cout << t1[1][3];
+        std::cout << t2[1][2];
     } 
     catch (const std::exception& ex) {
         std::cout << ex.what() << std::endl;
