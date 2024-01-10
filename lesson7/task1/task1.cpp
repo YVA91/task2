@@ -5,6 +5,14 @@
 #include <vector>
 #include <algorithm>
 
+
+template <class T> 
+void delete_duplicates(std::vector<T>& v) {
+    std::sort(v.begin(), v.end());
+    auto last = std::unique(v.begin(), v.end());
+    v.erase(last, v.end());
+}
+
 int main()
 {
     setlocale(LC_ALL, "Russian");
@@ -14,23 +22,16 @@ int main()
     std::vector <int> v{ 1, 1, 2, 5, 6, 1, 2, 4 };
 
     std::cout << "[IN] ";
-    for (const auto& elem : v) {
-        std::cout << elem << " ";
-    }
-    std::cout << "\n";
-
-    std::sort(v.begin(), v.end());
-
-    auto last = std::unique(v.begin(), v.end());
 
     for (const auto& elem : v) {
         std::cout << elem << " ";
     }
     std::cout << "\n";
 
-    v.erase(last, v.end());
+    delete_duplicates(v);
 
     std::cout << "[OUT] ";
+
     for (const auto& elem : v) {
         std::cout << elem << " ";
     }
